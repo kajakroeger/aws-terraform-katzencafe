@@ -30,7 +30,7 @@ def get_db_connection():
             database=os.environ.get("DB_NAME"),
             user=secret.get("username"),
             password=secret.get("password"),
-            sslmode='require',  # <--- Für Sicherheit (RDS unterstützt SSL!)
+            sslmode='require',  
             connect_timeout=10  
         )
         print("[INFO] DB-Verbindung erfolgreich aufgebaut.")
