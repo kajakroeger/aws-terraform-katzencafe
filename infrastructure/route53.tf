@@ -1,5 +1,10 @@
 
 /*
+Wurde auskommentiert, da die Webseite nicht wie geplant über Route53 
+sondern über CloudFront mit Standard Domain ausgeliefert wird. 
+Route53 wird daher vorerst nicht gebraucht.
+
+
 Verwaltet die DNS-Einstellungen der Domain
   - registriert die Domain samtpfoten-lounge.de über AWS Route 53, 
   - erstellt eine Hosted Zone für die Domain 

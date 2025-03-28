@@ -81,7 +81,6 @@ resource "aws_api_gateway_method_response" "cors_response" {
   depends_on = [aws_api_gateway_integration.lambda_integration]
 }
 
-
 # Fügt den tatsächlichen CORS-Header in die Antwort ein, sobald Lambda antwortet
 resource "aws_api_gateway_integration_response" "cors_integration_response" {
   rest_api_id = aws_api_gateway_rest_api.api.id

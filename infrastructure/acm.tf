@@ -1,6 +1,9 @@
 /*
-Verwaltet das SSL-Zertifikat (AWS ACM) für CloudFront
+Wurde entfernt, da die Webseite nicht wie geplant über Domain von Route53 
+sondern über CloudFront mit Standard Domain ausgeliefert wird. 
+CloudFront hat Standard Zertifikat, ACM wird daher vorerst nicht gebraucht.
 
+Verwaltet das SSL-Zertifikat (AWS ACM) für CloudFront
 
 # Zertifikat für www.samtpfoten-lounge.de (muss in us-east-1 sein, damit CloudFront es nutzen kann)
 provider "aws" {

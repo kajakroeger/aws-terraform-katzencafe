@@ -6,10 +6,13 @@
 # Terraform Lock-Dateien
 .terraform.lock.hcl
 
-# AWS secrets & Keys
-*.pem
-*.key
-*.crt
+# AWS secrets
+infrastructure/secrets.tf
+
+# Webseite wird nicht wie geplant über Route53 ausgeliefert, sondern über CloudFront
+# Für den Fall dass Route53 in Zukunft genutzt werden soll, können die Dateien genutzt/angepasst werden   
+infrastructure/route53.tf
+infrastructure/acm.tf
 
 # Ignoriere ZIP-Dateien
 *.zip
@@ -22,16 +25,5 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Node.js / React frontend (webapp/)
-webapp/node_modules/
-webapp/dist/
 
-# VSCode
-.vscode/
 
-# Logs
-*.log
-
-# System-Dateien
-.DS_Store
-Thumbs.db

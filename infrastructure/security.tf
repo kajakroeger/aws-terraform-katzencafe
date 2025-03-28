@@ -9,7 +9,7 @@ resource "aws_security_group" "vpc_endpoint_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"] # Zugriff nur innerhalb deiner VPC
+    cidr_blocks = ["10.0.0.0/16"] 
   }
 
   egress {
@@ -24,31 +24,30 @@ resource "aws_security_group" "vpc_endpoint_sg" {
   }
 }
 
-
-
-
 # Erstellt Sicherheitsgruppe für RDS
 resource "aws_security_group" "db_sg" {
   name        = "rds-security-group"
   description = "Erlaubt Zugriff auf die Datenbank von Lambda"
   vpc_id      = aws_vpc.main.id
 
-  # Erlaubt nur Verbindungen von Lambda (PostgreSQL Port 5432)
+  # Erlaubt nur Lambda Zugriff
   ingress {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    security_groups = [aws_security_group.lambda_sg.id] # Erlaubt nur Lambda-Zugriff
+    security_groups = [aws_security_group.lambda_sg.id] 
   }
 
-  # TEMPORÄR: Erlaubt Zugriff von deiner IP-Adresse (nur für Setup!)
-  ingress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = ["82.82.106.238/32"]
-    description = "TEMP Zugriff von meinem Rechner"
-  }
+  # Erlaubt Zugriff von bestimmter IP-Adresse. Für mehr lokale Arbeiten an der Datenbank
+  # Da selten notwendig, temporär aktivieren (Erhöht Sicherheit)
+  # Code-Abschnitt aktivieren, IP-Adresse einfügen, Datenbank bearbeiten und wieder auskommentieren
+  # ingress {
+  #   from_port   = 5432
+  #   to_port     = 5432
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["IP-ADRESSE/32"]
+  #   description = "TEMP Zugriff von meinem Rechner"
+  # }
 
   # Erlaubt ausgehenden Traffic (z.B. zu S3 oder externen APIs)
   egress {
