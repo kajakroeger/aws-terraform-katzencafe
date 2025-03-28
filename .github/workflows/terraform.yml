@@ -28,6 +28,10 @@ jobs:
         run: terraform init
         working-directory: infrastructure
 
+      - name: Lambda Code zippen
+        run: zip -r backend.zip . -x "*.git*" -x "*.terraform*" -x "node_modules/*"
+        working-directory: backend
+
       - name: Terraform Plan ausführen
         run: terraform plan
         working-directory: infrastructure
