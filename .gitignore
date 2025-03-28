@@ -1,0 +1,34 @@
+# Terraform-Artefakte
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Terraform Lock-Dateien
+.terraform.lock.hcl
+
+# AWS secrets & Keys
+*.pem
+*.key
+*.crt
+
+# Lambda ZIPs
+*.zip
+
+# Python cache (für backend/)
+__pycache__/
+*.pyc
+*.pyo
+
+# Node.js / React frontend (webapp/)
+webapp/node_modules/
+webapp/dist/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# System-Dateien
+.DS_Store
+Thumbs.db

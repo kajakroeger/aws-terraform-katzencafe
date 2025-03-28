@@ -1,0 +1,25 @@
+aws secretsmanager delete-secret --secret-id katzencafe-db-password --force-delete-without-recovery
+aws lambda update-function-code --function-name katzencafe-backend --zip-file fileb://../package.zip
+
+
+
+psycopg2 Dependencies installieren
+    C:\Users\Kaja\AppData\Local\Programs\Python\Python313\python.exe -m pip install psycopg2-binary --platform manylinux2014_x86_64 --target . --implementation cp --python-version 3.9 --only-binary=:all: --upgrade
+
+Backend ZIP Datei erstellen:
+    1. Gehe in: C:\Users\Kaja\Coding\Terraform-AWS-Katzencafe\backend
+    2. Ordner zippen: Compress-Archive -Path * -DestinationPath ../backend.zip
+
+ZIP hochladen: 
+    aws lambda update-function-code --function-name table-reservations --zip-file fileb://../backend.zip
+
+
+New-Item -ItemType Directory -Force -Path "psycopg2-layer/python/lib/python3.12/site-packages"
+
+
+Command, um Datenbank zu befüllen:
+    & "C:\Program Files\PostgreSQL\17\bin\psql.exe" -h katzencafe-db.chucqoqq25n4.eu-central-1.rds.amazonaws.com -U masteruser -d katzencafedb -f ../backend/database/create_tables.sql
+
+
+
+
