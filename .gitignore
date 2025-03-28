@@ -11,8 +11,11 @@
 *.key
 *.crt
 
-# Lambda ZIPs
+# Ignoriere ZIP-Dateien
 *.zip
+# Aber nicht diese
+!backend.zip
+!psycopg2-layer.zip
 
 # Python cache (für backend/)
 __pycache__/
