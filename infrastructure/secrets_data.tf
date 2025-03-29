@@ -1,7 +1,7 @@
 # Die Datenquellen lesen das Passwort Datenbank-Passwort aus dem AWS Secrets Manager aus 
 
 data "aws_secretsmanager_secret" "db_password" {
-  name = "katzencafe-db-password"
+  name = "secret-rds"
 }
 
 data "aws_secretsmanager_secret_version" "db_password_value" {
