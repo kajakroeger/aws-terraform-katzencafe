@@ -25,7 +25,7 @@ resource "aws_db_instance" "postgres" {
   backup_retention_period = 7 # Backups werden für 7 Tage gespeichert
   multi_az                = true
   username                = "masteruser"
-  password                = jsondecode(aws_secretsmanager_secret_version.db_password_value.secret_string)["password"] # Holt das Passwort sicher aus AWS Secrets Manager
+  password                = jsondecode(data.aws_secretsmanager_secret_version.db_password_value.secret_string)["password"] # Holt das Passwort sicher aus AWS Secrets 
   parameter_group_name    = "default.postgres14"
   publicly_accessible     = true
   skip_final_snapshot     = true
