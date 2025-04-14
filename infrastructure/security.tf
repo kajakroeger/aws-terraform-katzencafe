@@ -14,7 +14,7 @@ resource "aws_vpc_endpoint" "secretsmanager" {
 }
 
 # Security Group für den VPC Endpoint des Secrets Managers
-# Zugriff ist nur innerhalb der VPC erlaubt
+# Nur Lambda hat Zugriff
 resource "aws_security_group" "vpc_endpoint_sg" {
   name        = "vpc-endpoint-sg"
   description = "Erlaubt HTTPS Traffic fuer den VPC Endpoint"
@@ -32,7 +32,7 @@ resource "aws_security_group" "vpc_endpoint_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["10.0.0.0/16"]
+    security_groups = [aws_security_group.lambda_sg.id]
   }
 
   tags = {
@@ -41,6 +41,7 @@ resource "aws_security_group" "vpc_endpoint_sg" {
 }
 
 # Erstellt Sicherheitsgruppe für RDS
+# Nur Lambda hat Zugriff
 resource "aws_security_group" "db_sg" {
   name        = "rds-security-group"
   description = "Erlaubt Zugriff auf die Datenbank von Lambda"
