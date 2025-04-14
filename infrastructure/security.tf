@@ -1,4 +1,20 @@
-# Security Group für VPC Endpoint (Secrets Manager)
+# Erstellt einen VPC Endpoint für Secrets Manager
+resource "aws_vpc_endpoint" "secretsmanager" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.eu-central-1.secretsmanager"
+  vpc_endpoint_type = "Interface"
+  subnet_ids        = [aws_subnet.private_1.id, aws_subnet.private_2.id]
+  security_group_ids = [aws_security_group.vpc_endpoint_sg.id]
+
+  private_dns_enabled = true
+
+  tags = {
+    Name = "secretsmanager-endpoint"
+  }
+}
+
+# Security Group für den VPC Endpoint des Secrets Managers
+# Nur Lambda hat Zugriff
 resource "aws_security_group" "vpc_endpoint_sg" {
   name        = "vpc-endpoint-sg"
   description = "Erlaubt HTTPS Traffic fuer den VPC Endpoint"
@@ -9,14 +25,14 @@ resource "aws_security_group" "vpc_endpoint_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"] 
+    security_groups = [aws_security_group.lambda_sg.id] 
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.lambda_sg.id] 
   }
 
   tags = {
@@ -38,9 +54,16 @@ resource "aws_security_group" "db_sg" {
     security_groups = [aws_security_group.lambda_sg.id] 
   }
 
-  # Erlaubt Zugriff von bestimmter IP-Adresse. Für lokale Arbeiten an der Datenbank
-  # Da selten notwendig, temporär aktivieren (Erhöht Sicherheit)
-  # Code-Abschnitt aktivieren, IP-Adresse einfügen, Datenbank bearbeiten und wieder auskommentieren
+  # Erlaubt ausgehenden Traffic zu Lambda
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    security_groups = [aws_security_group.lambda_sg.id] 
+  }
+
+  # OPTIONAL: Erlaubt eingehenden Traffic von bestimmter IP-Adresse. Für lokale Arbeiten an der Datenbank. 
+  # Bei Bedarf Code-Abschnitt aktivieren, IP-Adresse einfügen, Datenbank bearbeiten und wieder auskommentieren.
   # ingress {
   #   from_port   = 5432
   #   to_port     = 5432
@@ -48,14 +71,6 @@ resource "aws_security_group" "db_sg" {
   #   cidr_blocks = ["IP-ADRESSE/32"]
   #   description = "TEMP Zugriff von meinem Rechner"
   # }
-
-  # Erlaubt ausgehenden Traffic (z.B. zu S3 oder externen APIs)
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 
   tags = {
     Name = "DB Security Group"
@@ -68,12 +83,15 @@ resource "aws_security_group" "lambda_sg" {
   description = "Erlaubt Lambda Verbindungen zur RDS-Datenbank"
   vpc_id      = aws_vpc.main.id
 
-  # Erlaubt ausgehenden Traffic, damit Lambda Anfragen senden kann
+  # Erlaubt ausgehenden Traffic, zur Datenbank und AWS Secrets Manager
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [
+      aws_security_group.db_sg.id,
+      aws_security_group.vpc_endpoint_sg.id
+    ]
   }
 
   tags = {

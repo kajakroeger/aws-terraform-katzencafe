@@ -32,7 +32,8 @@ resource "aws_iam_policy" "lambda_secrets_access" {
     Statement = [{
       Effect   = "Allow"
       Action   = ["secretsmanager:GetSecretValue"]
-      Resource = data.aws_secretsmanager_secret_version.db_password_value.secret_string
+      Resource = data.aws_secretsmanager_secret.db_password.arn
+      #Resource = data.aws_secretsmanager_secret_version.db_password_value.secret_string
 
     }]
   })

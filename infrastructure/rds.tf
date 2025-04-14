@@ -16,7 +16,7 @@ resource "aws_db_instance" "postgres" {
   db_name                 = "katzencafedb"
   identifier              = "katzencafe-db"
   engine                  = "postgres"
-  engine_version          = "14.16"
+  engine_version          = "11.22"
   instance_class          = "db.t3.micro"
   allocated_storage       = 20  # In GB
   max_allocated_storage   = 100 # Skalierbar bis 100 GB, falls nötig
@@ -28,7 +28,7 @@ resource "aws_db_instance" "postgres" {
   
   # speichert das Passwort sicher im AWS Secrets Manager und holt es über Datenquelle
   password                = jsondecode(data.aws_secretsmanager_secret_version.db_password_value.secret_string)["password"] 
-  parameter_group_name    = "default.postgres14"
+  parameter_group_name    = "default.postgres11"
   publicly_accessible     = false
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.db_sg.id]
