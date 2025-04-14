@@ -9,7 +9,7 @@ Erstellt ein REST API Gateway, um HTTP-Anfragen von der Webseite an Lambda-Funkt
 # Erstellt REST API als Schnittstelle zwischen Lambda und Webseite
 resource "aws_api_gateway_rest_api" "api" {
   name        = "katzencafe-api"
-  description = "API für Bestellungen & Reservierungen"
+  description = "API für Tisch-Reservierungen"
 }
 
 # Fügt Endpunkt '/reservierung' zur API hinzu 

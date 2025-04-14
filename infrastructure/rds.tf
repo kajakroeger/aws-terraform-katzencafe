@@ -25,9 +25,11 @@ resource "aws_db_instance" "postgres" {
   backup_retention_period = 7 # Backups werden für 7 Tage gespeichert
   multi_az                = true
   username                = "masteruser"
-  password                = jsondecode(data.aws_secretsmanager_secret_version.db_password_value.secret_string)["password"] # Holt das Passwort sicher aus AWS Secrets 
+  
+  # speichert das Passwort sicher im AWS Secrets Manager und holt es über Datenquelle
+  password                = jsondecode(data.aws_secretsmanager_secret_version.db_password_value.secret_string)["password"] 
   parameter_group_name    = "default.postgres14"
-  publicly_accessible     = true
+  publicly_accessible     = false
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.db_sg.id]
   db_subnet_group_name    = aws_db_subnet_group.db_subnet_group.name # Verknüpfung mit Subnet-Group

@@ -58,6 +58,13 @@ resource "aws_cloudfront_response_headers_policy" "cors_policy" {
       include_subdomains = true
       preload = true
     }
+    # Aktiviert den Cross Site Scriting Schutz des Browsers
+    xss_protection {
+    override = true
+    protection = true
+    mode_block = true
+    report_uri = "" # optional: Zum Melden von Angriffen
+  }
   }
 }
 

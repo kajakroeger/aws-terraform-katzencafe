@@ -38,7 +38,7 @@ resource "aws_security_group" "db_sg" {
     security_groups = [aws_security_group.lambda_sg.id] 
   }
 
-  # Erlaubt Zugriff von bestimmter IP-Adresse. Für mehr lokale Arbeiten an der Datenbank
+  # Erlaubt Zugriff von bestimmter IP-Adresse. Für lokale Arbeiten an der Datenbank
   # Da selten notwendig, temporär aktivieren (Erhöht Sicherheit)
   # Code-Abschnitt aktivieren, IP-Adresse einfügen, Datenbank bearbeiten und wieder auskommentieren
   # ingress {

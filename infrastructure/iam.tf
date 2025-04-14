@@ -22,7 +22,7 @@ resource "aws_iam_role" "lambda_exec" {
   POLICY
 }
 
-# Lmabda-Berechtigung für Zugriff auf AWS Secrets Manager
+# Lambda-Berechtigung für Zugriff auf AWS Secrets Manager
 resource "aws_iam_policy" "lambda_secrets_access" {
   name        = "lambda-secrets-access"
   description = "Erlaubt Lambda, das Passwort aus Secrets Manager zu holen"
@@ -45,6 +45,8 @@ resource "aws_iam_policy_attachment" "lambda_rds_access" {
 }
 
 # VPC Access Permission
+# Gibt Lambda die Erlaubnis sich mit der VPC zu verbinden, 
+# damit sie auf die Datenbank im privaten Subnet zugreifen kann.
 resource "aws_iam_role_policy_attachment" "lambda_vpc_access" {
   role       = aws_iam_role.lambda_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"

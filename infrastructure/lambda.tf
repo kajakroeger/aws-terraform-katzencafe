@@ -22,7 +22,7 @@ resource "aws_lambda_function" "backend" {
     }
   }
 
-  # Lambda läuft in gleicher VPC wie die Datenbank
+  # Lambda läuft in gleicher VPC und Subnet wie die Datenbank
   vpc_config {
     subnet_ids         = [aws_subnet.private_1.id, aws_subnet.private_2.id]
     security_group_ids = [aws_security_group.lambda_sg.id]
