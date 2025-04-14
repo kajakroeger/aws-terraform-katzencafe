@@ -14,7 +14,7 @@ resource "aws_vpc_endpoint" "secretsmanager" {
 }
 
 # Security Group für den VPC Endpoint des Secrets Managers
-# Nur Lambda hat Zugriff
+# Zugriff ist nur innerhalb der VPC erlaubt
 resource "aws_security_group" "vpc_endpoint_sg" {
   name        = "vpc-endpoint-sg"
   description = "Erlaubt HTTPS Traffic fuer den VPC Endpoint"
@@ -25,14 +25,14 @@ resource "aws_security_group" "vpc_endpoint_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    security_groups = [aws_security_group.lambda_sg.id] 
+    security_groups = [aws_security_group.lambda_sg.id]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    security_groups = [aws_security_group.lambda_sg.id] 
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   tags = {
@@ -46,20 +46,18 @@ resource "aws_security_group" "db_sg" {
   description = "Erlaubt Zugriff auf die Datenbank von Lambda"
   vpc_id      = aws_vpc.main.id
 
-  # Erlaubt nur Lambda Zugriff
   ingress {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    security_groups = [aws_security_group.lambda_sg.id] 
+    security_groups = [aws_security_group.lambda_sg.id]
   }
 
-  # Erlaubt ausgehenden Traffic zu Lambda
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    security_groups = [aws_security_group.lambda_sg.id] 
+    security_groups = [aws_security_group.lambda_sg.id]
   }
 
   # OPTIONAL: Erlaubt eingehenden Traffic von bestimmter IP-Adresse. Für lokale Arbeiten an der Datenbank. 
@@ -83,15 +81,12 @@ resource "aws_security_group" "lambda_sg" {
   description = "Erlaubt Lambda Verbindungen zur RDS-Datenbank"
   vpc_id      = aws_vpc.main.id
 
-  # Erlaubt ausgehenden Traffic, zur Datenbank und AWS Secrets Manager
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    security_groups = [
-      aws_security_group.db_sg.id,
-      aws_security_group.vpc_endpoint_sg.id
-    ]
+    cidr_blocks = ["10.0.0.0/16"]
+
   }
 
   tags = {
