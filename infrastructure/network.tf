@@ -12,14 +12,14 @@ resource "aws_vpc" "main" {
   }
 }
 
-# # Internet Gateway für VPC
-# resource "aws_internet_gateway" "main_igw" {
-#   vpc_id = aws_vpc.main.id
+# Internet Gateway für VPC
+resource "aws_internet_gateway" "main_igw" {
+  vpc_id = aws_vpc.main.id
 
-#   tags = {
-#     Name = "MainVPC-InternetGateway"
-#   }
-# }
+  tags = {
+    Name = "MainVPC-InternetGateway"
+  }
+}
 
 resource "aws_subnet" "private_1" {
   vpc_id                  = aws_vpc.main.id
@@ -47,10 +47,10 @@ resource "aws_subnet" "private_2" {
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.main.id
 
-  # route {
-  #   cidr_block = "0.0.0.0/0"
-  #   gateway_id = aws_internet_gateway.main_igw.id
-  # }
+  route {
+   cidr_block = "0.0.0.0/0"
+   gateway_id = aws_internet_gateway.main_igw.id
+  }
 
   tags = {
     Name = "MainVPC-RouteTable"
