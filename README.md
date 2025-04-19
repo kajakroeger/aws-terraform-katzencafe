@@ -2,12 +2,12 @@
 
 Das Projekt entstand im Rahmen eines Studiums zum Thema Cloud Programming. Ziel war es eine Anwendung in der Cloud zu hosten. Dabei entstand das fiktive Katzencafé SamtpfotenLounge. Folgende Anforderungen sollte die Cloud-Infrastruktur erfüllen:
 
-    •	Hochverfügbarkeit: Die Website soll immer verfügbar und global aufrufbar sein. 
-    •	Minimale Ladezeiten: Die Besuchenden sollen keine Verzögerungen erfahren
-    •	Skalierbarkeit: Das Backend soll automatisch skalieren, wenn mehrere Besuchende die Webseite nutzen.
-    •	Kosteneffizient: Die Kosten für den Betrieb sollen möglichst gering sein.
-    •	Sicherheit: Sensible Daten sollen geschützt und Zugriffsrechte ermöglichen.
-    •	DSGVO-Konformität: Die Verarbeitung personenbezogener Daten soll rechtliche Vorgaben zum Datenschutz eingehalten. 
+    •    Hochverfügbarkeit: Die Website soll immer verfügbar und global aufrufbar sein. 
+    •    Minimale Ladezeiten: Die Besuchenden sollen keine Verzögerungen erfahren
+    •    Skalierbarkeit: Das Backend soll automatisch skalieren, wenn mehrere Besuchende die Webseite nutzen.
+    •    Kosteneffizient: Die Kosten für den Betrieb sollen möglichst gering sein.
+    •    Sicherheit: Sensible Daten sollen geschützt und Zugriffsrechte ermöglichen.
+    •    DSGVO-Konformität: Die Verarbeitung personenbezogener Daten soll rechtliche Vorgaben zum Datenschutz eingehalten. 
 
 
 ## Überblick der Infrastruktur
