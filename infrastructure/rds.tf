@@ -29,7 +29,7 @@ resource "aws_db_instance" "postgres" {
   # speichert das Passwort sicher im AWS Secrets Manager und holt es über Datenquelle
   password                = jsondecode(data.aws_secretsmanager_secret_version.db_password_value.secret_string)["password"] 
   parameter_group_name    = "default.postgres11"
-  publicly_accessible     = false
+  publicly_accessible     = true
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.db_sg.id]
   db_subnet_group_name    = aws_db_subnet_group.db_subnet_group.name # Verknüpfung mit Subnet-Group

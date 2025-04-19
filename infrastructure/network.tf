@@ -1,5 +1,5 @@
 /*
-Erstellt Subnetze, um Services in einer VPC bereitzustellen
+Erstellt das virtuelle Netzwerk (VPC) und dessen Subnetze. 
 */
 
 resource "aws_vpc" "main" {
@@ -13,13 +13,14 @@ resource "aws_vpc" "main" {
 }
 
 # # Internet Gateway für VPC
-# resource "aws_internet_gateway" "main_igw" {
-#   vpc_id = aws_vpc.main.id
+# # Damit RDS Daten aus dem Internet empfangen kann
+#  resource "aws_internet_gateway" "main_igw" {
+#    vpc_id = aws_vpc.main.id
 
-#   tags = {
-#     Name = "MainVPC-InternetGateway"
-#   }
-# }
+#    tags = {
+#      Name = "MainVPC-InternetGateway"
+#    }
+#  }
 
 resource "aws_subnet" "private_1" {
   vpc_id                  = aws_vpc.main.id
@@ -43,28 +44,30 @@ resource "aws_subnet" "private_2" {
   }
 }
 
-# Route Table für Public-Zugriff
-resource "aws_route_table" "public_rt" {
-  vpc_id = aws_vpc.main.id
+# Route Table für Public-Zugriff. 
+# Damit Änderungen an der Datenbank lokal hochgeladen werden können.
+# Bei Bedarf Abschnitt aktivieren, Datenbank bearbeiten und wieder auskommentieren.
+# resource "aws_route_table" "public_rt" {
+#   vpc_id = aws_vpc.main.id
 
-  # route {
-  #  cidr_block = "0.0.0.0/0"
-  #  gateway_id = aws_internet_gateway.main_igw.id
-  # }
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     gateway_id = aws_internet_gateway.main_igw.id
+#   }
 
-  tags = {
-    Name = "MainVPC-RouteTable"
-  }
-}
+#   tags = {
+#     Name = "MainVPC-RouteTable"
+#   }
+# }
 
-# Route Table Association für private_1 Subnetz
-resource "aws_route_table_association" "private_1_assoc" {
-  subnet_id      = aws_subnet.private_1.id
-  route_table_id = aws_route_table.public_rt.id
-}
+# # Route Table Association für private_1 Subnetz
+# resource "aws_route_table_association" "private_1_assoc" {
+#   subnet_id      = aws_subnet.private_1.id
+#   route_table_id = aws_route_table.public_rt.id
+# }
 
-# Route Table Association für private_2 Subnetz
-resource "aws_route_table_association" "private_2_assoc" {
-  subnet_id      = aws_subnet.private_2.id
-  route_table_id = aws_route_table.public_rt.id
-}
+# # Route Table Association für private_2 Subnetz
+# resource "aws_route_table_association" "private_2_assoc" {
+#   subnet_id      = aws_subnet.private_2.id
+#   route_table_id = aws_route_table.public_rt.id
+# }

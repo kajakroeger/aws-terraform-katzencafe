@@ -51,7 +51,7 @@ resource "aws_security_group" "db_sg" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    security_groups = [aws_security_group.lambda_sg.id]
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   egress {
@@ -61,14 +61,14 @@ resource "aws_security_group" "db_sg" {
     security_groups = [aws_security_group.lambda_sg.id]
   }
 
-  # OPTIONAL: Erlaubt eingehenden Traffic von bestimmter IP-Adresse. Für lokale Arbeiten an der Datenbank. 
-  # Bei Bedarf Code-Abschnitt aktivieren, IP-Adresse einfügen, Datenbank bearbeiten und wieder auskommentieren.
-  # ingress {
-  #   from_port   = 5432
-  #   to_port     = 5432
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["IP-ADRESSE/32"]
-  #   description = "TEMP Zugriff von meinem Rechner"
+  # # OPTIONAL: Erlaubt eingehenden Traffic von bestimmter IP-Adresse. Für lokale Arbeiten an der Datenbank. 
+  # # Bei Bedarf Code-Abschnitt aktivieren, Datenbank bearbeiten und wieder auskommentieren.
+  #  ingress {
+  #    from_port   = 5432
+  #    to_port     = 5432
+  #    protocol    = "tcp"
+  #    cidr_blocks = [var.my_ip]
+  #    description = "TEMP Zugriff von meinem Rechner"
   # }
 
   tags = {
